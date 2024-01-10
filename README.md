@@ -31,16 +31,16 @@ This Lovelace card can be installed via [HACS](https://hacs.xyz/) or manually.
 
 ### Installing the card manually
 
-**1.** Copy the [berlin-transport-timetable-card.js](./dist) card module to the `www` directory of your Home Assistant. The same way you did for the sensor above. If it doesn't exist — create one.
+**1.** Copy the [berlin-transport-card.js](./dist) card module to the `www` directory of your Home Assistant. The same way you did for the sensor above. If it doesn't exist — create one.
 
 **2.** Go to your Home Assistant dashboard, click "Edit dashboard" at the right top corner and after that in the same top right corner choose "Manage resources".
 
-**3.** Add new resource with URL: `/local/berlin-transport-timetable-card.js` and click create. Go back to your dashboard and refresh the page.
+**3.** Add new resource with URL: `/local/berlin-transport-card.js` and click create. Go back to your dashboard and refresh the page.
 
 **4.** Now you can add the custom card and integrate it with your sensor. Click "Add card -> Manual" or just go to "Raw configuration editor" and use this config.
 
 ```yaml
-- type: custom:berlin-transport-timetable-card
+- type: custom:berlin-transport-card
   show_stop_name: true # show or hide the name of your stop in card title
   max_entries: 8 # number of upcoming departures to show (max: 10)
   entities:
