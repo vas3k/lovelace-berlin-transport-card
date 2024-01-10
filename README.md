@@ -16,7 +16,7 @@ This Lovelace card can be installed via [HACS](https://hacs.xyz/) or manually.
 
 > ⚠️ Make sure you installed the [BVG integration](https://github.com/vas3k/home-assistant-berlin-transport) first. This card would not work without it.
 
-## Using HACS
+### Using HACS
 
 **1.** Open HACS interface from your Home Assistant sidebar
 
