@@ -15,7 +15,8 @@ class BerlinTransportCard extends HTMLElement {
         const maxEntries = config.max_entries || 10;
         const showStopName = config.show_stop_name || (config.show_stop_name === undefined);
         const entityIds = config.entity ? [config.entity] : config.entities || [];
-        const show_cancelled = config.show_cancelled || (config.show_cancelled === undefined);
+        const showCancelled = config.show_cancelled || (config.show_cancelled === undefined);
+        const showDelay = config.show_delay || (config.show_delay === undefined);
 
         let content = "";
 
@@ -29,16 +30,18 @@ class BerlinTransportCard extends HTMLElement {
                 content += `<div class="stop">${entity.attributes.friendly_name}</div>`;
             }
 
-            const timetable = entity.attributes.departures.slice(0, maxEntries).map((departure) => 
-                departure.cancelled && !show_cancelled ? `` :
+            const timetable = entity.attributes.departures.slice(0, maxEntries).map((departure) => {
+                const delay = departure.delay === 'null' ? `` : departure.delay / 60;
+                const delay_div = delay > 0 ? `<div class="delay delay-pos">+${delay}</div>`: `<div class="delay delay-neg">${delay === 0 ? '+0' : delay}</div>`;
+                return departure.cancelled && !showCancelled ? `` :
                 `<div class="${departure.cancelled ? 'departure-cancelled' : 'departure'}">
                     <div class="line">
                         <div class="line-icon" style="background-color: ${departure.color}">${departure.line_name}</div>
                     </div>
                     <div class="direction">${departure.direction}</div>
-                    <div class="time">${departure.time}</div>
+                    <div class="time">${departure.time}${showDelay ? delay_div : ''}</div>
                 </div>`
-            );
+            });
 
             content += `<div class="departures">` + timetable.join("\n") + `</div>`;
         }
@@ -117,6 +120,17 @@ class BerlinTransportCard extends HTMLElement {
                 font-weight: 700;
                 line-height: 2em;
                 padding-right: 10px;
+                display: flex;
+            }
+            .delay {
+               line-height: 2em;
+               font-size: 70%;
+            }
+            .delay-pos {
+               color: #8B0000;
+            }
+            .delay-neg {
+               color: #006400;
             }
         `;
      

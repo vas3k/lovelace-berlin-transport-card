@@ -47,6 +47,7 @@ This Lovelace card can be installed via [HACS](https://hacs.xyz/) or manually.
     - sensor.stop_id_900110001 # use your entity IDs here
     - sensor.stargarder_str # they might be different from mine
   show_cancelled: true # show or hide the cancelled departures. When not defined or true, the cancelled departures will be shown as struk-through.
+  show_delay: true # show or hide the delay if reported. When not defined or true, the delay will be shown next to the departure time.
 ```
 
 
