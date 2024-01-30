@@ -48,6 +48,9 @@ This Lovelace card can be installed via [HACS](https://hacs.xyz/) or manually.
     - sensor.stargarder_str # they might be different from mine
   show_cancelled: true # show or hide the cancelled departures. When not defined or true, the cancelled departures will be shown as struk-through.
   show_delay: true # show or hide the delay if reported. When not defined or true, the delay will be shown next to the departure time.
+  show_absolute_time: true # show the absolute time till departure.
+  show_relative_time: true # show the relative time till departure.
+  include_walking_time: true # subtract walking time to the stop from the relative time to the departure.
 ```
 
 

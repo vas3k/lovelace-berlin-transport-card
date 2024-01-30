@@ -17,6 +17,9 @@ class BerlinTransportCard extends HTMLElement {
         const entityIds = config.entity ? [config.entity] : config.entities || [];
         const showCancelled = config.show_cancelled || (config.show_cancelled === undefined);
         const showDelay = config.show_delay || (config.show_delay === undefined);
+        const showAbsoluteTime = config.show_absolute_time || (config.show_absolute_time === undefined);
+        const showRelativeTime = config.show_relative_time || (config.show_relative_time === undefined);
+        const includeWalkingTime = config.include_walking_time || (config.include_walking_time === undefined);
 
         let content = "";
 
@@ -31,15 +34,21 @@ class BerlinTransportCard extends HTMLElement {
             }
 
             const timetable = entity.attributes.departures.slice(0, maxEntries).map((departure) => {
-                const delay = departure.delay === 'null' ? `` : departure.delay / 60;
-                const delay_div = delay > 0 ? `<div class="delay delay-pos">+${delay}</div>`: `<div class="delay delay-neg">${delay === 0 ? '+0' : delay}</div>`;
-                return departure.cancelled && !showCancelled ? `` :
+            const delay = departure.delay === 'null' ? `` : departure.delay / 60;
+            const delayDiv = delay > 0 ? `<div class="delay delay-pos">+${delay}</div>`: `<div class="delay delay-neg">${delay === 0 ? '+0' : delay}</div>`;
+            const currentDate = new Date().getTime();
+            const timestamp = new Date(departure.timestamp).getTime();
+            const walkingTime = includeWalkingTime ? departure.walking_time : 0;
+            const relativeTime = Math.round((timestamp - currentDate) / (1000 * 60)) - walkingTime;
+            const relativeTimeDiv = `<div class="relative-time">${relativeTime}&prime;&nbsp;</div>`;
+
+            return departure.cancelled && !showCancelled ? `` :
                 `<div class="${departure.cancelled ? 'departure-cancelled' : 'departure'}">
                     <div class="line">
                         <div class="line-icon" style="background-color: ${departure.color}">${departure.line_name}</div>
                     </div>
                     <div class="direction">${departure.direction}</div>
-                    <div class="time">${departure.time}${showDelay ? delay_div : ''}</div>
+                    <div class="time">${showRelativeTime ? relativeTimeDiv : ''}${showAbsoluteTime ? departure.time : ''}${showDelay ? delayDiv : ''}</div>
                 </div>`
             });
 
@@ -58,7 +67,7 @@ class BerlinTransportCard extends HTMLElement {
 
         const card = document.createElement('ha-card');
         const content = document.createElement('div');
-        const style = document.createElement('style')
+        const style = document.createElement('style');
   
         style.textContent = `
             .container {
@@ -131,6 +140,9 @@ class BerlinTransportCard extends HTMLElement {
             }
             .delay-neg {
                color: #006400;
+            }
+            .relative-time {
+               font-style: italic;
             }
         `;
      
