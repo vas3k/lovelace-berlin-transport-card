@@ -34,7 +34,7 @@ class BerlinTransportCard extends HTMLElement {
             }
 
             const timetable = entity.attributes.departures.slice(0, maxEntries).map((departure) => {
-            const delay = departure.delay === 'null' ? `` : departure.delay / 60;
+            const delay = departure.delay === null ? `` : departure.delay / 60;
             const delayDiv = delay > 0 ? `<div class="delay delay-pos">+${delay}</div>`: `<div class="delay delay-neg">${delay === 0 ? '+0' : delay}</div>`;
             const currentDate = new Date().getTime();
             const timestamp = new Date(departure.timestamp).getTime();
@@ -134,6 +134,8 @@ class BerlinTransportCard extends HTMLElement {
             .delay {
                line-height: 2em;
                font-size: 70%;
+               text-align: right;
+               min-width: 1.5em;
             }
             .delay-pos {
                color: #8B0000;
