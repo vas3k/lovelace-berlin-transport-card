@@ -135,7 +135,7 @@ class BerlinTransportCard extends HTMLElement {
                line-height: 2em;
                font-size: 70%;
                text-align: right;
-               min-width: 1.5em;
+               min-width: 2ch;
             }
             .delay-pos {
                color: #8B0000;
