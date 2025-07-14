@@ -78,7 +78,6 @@ class BerlinTransportCard extends HTMLElement {
             ha-card {
                 height: 100%;
                 padding: 10px;
-                font-size: 130%;
                 line-height: 1.5em;
             }
             .container {
