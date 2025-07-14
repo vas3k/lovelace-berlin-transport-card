@@ -83,6 +83,7 @@ class BerlinTransportCard extends HTMLElement {
             .container {
                 height: 100%;
                 overflow: hidden hidden;
+                margin-bottom: -10px;
             }
             .stop {
                 opacity: 0.6;
