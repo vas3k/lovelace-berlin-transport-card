@@ -34,28 +34,28 @@ class BerlinTransportCard extends HTMLElement {
             }
 
             const timetable = entity.attributes.departures.slice(0, maxEntries).map((departure) => {
-            const delay = departure.delay === null ? `` : departure.delay / 60;
-            const delayDiv = delay > 0 ? `<div class="delay delay-pos">+${delay}</div>`: `<div class="delay delay-neg">${delay === 0 ? '+0' : delay}</div>`;
-            const currentDate = new Date().getTime();
-            const timestamp = new Date(departure.timestamp).getTime();
-            const walkingTime = includeWalkingTime ? departure.walking_time : 0;
-            const relativeTime = Math.round((timestamp - currentDate) / (1000 * 60)) - walkingTime;
-            const relativeTimeDiv = `<div class="relative-time">${relativeTime}&prime;&nbsp;</div>`;
+                const delay = departure.delay === null ? `` : departure.delay / 60;
+                const delayDiv = delay > 0 ? `<div class="delay delay-pos">+${delay}</div>`: `<div class="delay delay-neg">${delay === 0 ? '+0' : delay}</div>`;
+                const currentDate = new Date().getTime();
+                const timestamp = new Date(departure.timestamp).getTime();
+                const walkingTime = includeWalkingTime ? departure.walking_time : 0;
+                const relativeTime = Math.round((timestamp - currentDate) / (1000 * 60)) - walkingTime;
+                const relativeTimeDiv = `<div class="relative-time">${relativeTime}&prime;&nbsp;</div>`;
 
-            return departure.cancelled && !showCancelled ? `` :
-                `<div class="${departure.cancelled ? 'departure-cancelled' : 'departure'}">
-                    <div class="line">
-                        <div class="line-icon" style="background-color: ${departure.color}">${departure.line_name}</div>
-                    </div>
-                    <div class="direction">${departure.direction}</div>
-                    <div class="time">${showRelativeTime ? relativeTimeDiv : ''}${showAbsoluteTime ? departure.time : ''}${showDelay ? delayDiv : ''}</div>
-                </div>`
+                return departure.cancelled && !showCancelled ? `` :
+                    `<div class="${departure.cancelled ? 'departure-cancelled' : 'departure'}">
+                        <div class="line">
+                            <div class="line-icon" style="background-color: ${departure.color}">${departure.line_name}</div>
+                        </div>
+                        <div class="direction">${departure.direction}</div>
+                        <div class="time">${showRelativeTime ? relativeTimeDiv : ''}${showAbsoluteTime ? departure.time : ''}${showDelay ? delayDiv : ''}</div>
+                    </div>`
             });
 
             content += `<div class="departures">` + timetable.join("\n") + `</div>`;
         }
 
-       this.shadowRoot.getElementById('container').innerHTML = content;
+        this.shadowRoot.getElementById('container').innerHTML = content;
     }
 
     /* This is called only when config is updated */
@@ -68,7 +68,7 @@ class BerlinTransportCard extends HTMLElement {
         const card = document.createElement('ha-card');
         const content = document.createElement('div');
         const style = document.createElement('style');
-  
+
         style.textContent = `
             .container {
                 padding: 10px;
@@ -81,7 +81,7 @@ class BerlinTransportCard extends HTMLElement {
                 width: 100%;
                 text-align: left;
                 padding: 10px 10px 5px 5px;
-            }      
+            }
             .departures {
                 width: 100%;
                 font-weight: 400;
@@ -147,7 +147,7 @@ class BerlinTransportCard extends HTMLElement {
                font-style: italic;
             }
         `;
-     
+
         content.id = "container";
         content.className = "container";
         card.header = config.title;
@@ -155,11 +155,11 @@ class BerlinTransportCard extends HTMLElement {
         card.appendChild(content);
 
         root.appendChild(card);
-      }
-  
+    }
+
     // The height of the card.
     getCardSize() {
-      return 5;
+        return 5;
     }
 }
   
