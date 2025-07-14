@@ -43,7 +43,7 @@ class BerlinTransportCard extends HTMLElement {
                     const relativeTimeDiv = `<div class="relative-time">${relativeTime}&prime;&nbsp;</div>`;
 
                     return departure.cancelled && !showCancelled ? `` :
-                        `<div class="${departure.cancelled ? 'departure-cancelled' : 'departure'}">
+                        `<div class="departure ${departure.cancelled ? 'departure-cancelled' : ''}">
                             <div class="line">
                                 <div class="line-icon" style="background-color: ${departure.color}">${departure.line_name}</div>
                             </div>
@@ -82,15 +82,10 @@ class BerlinTransportCard extends HTMLElement {
             }
             .stop {
                 opacity: 0.6;
-                font-weight: 400;
-                width: 100%;
                 text-align: left;
                 padding: 10px 10px 5px 5px;
             }
             .departures {
-                width: 100%;
-                font-weight: 400;
-                line-height: 1.5em;
                 padding-bottom: 20px;
             }
             .departure {
@@ -104,12 +99,6 @@ class BerlinTransportCard extends HTMLElement {
             .departure-cancelled {
                 text-decoration: line-through;
                 filter: grayscale(50%);
-                padding-top: 10px;
-                display: flex;
-                flex-direction: row;
-                flex-wrap: nowrap;
-                align-items: flex-start;
-                gap: 20px;
             }
             .line {
                 min-width: 70px;
@@ -137,8 +126,8 @@ class BerlinTransportCard extends HTMLElement {
                 display: flex;
             }
             .delay {
-               line-height: 2em;
                font-size: 70%;
+               line-height: 2em;
                text-align: right;
                min-width: 2ch;
             }
