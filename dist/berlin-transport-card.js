@@ -78,7 +78,7 @@ class BerlinTransportCard extends HTMLElement {
             ha-card {
                 height: 100%;
                 padding: 10px;
-                line-height: 1.5em;
+                line-height: 2em;
             }
             .container {
                 height: 100%;
@@ -87,13 +87,14 @@ class BerlinTransportCard extends HTMLElement {
             .stop {
                 opacity: 0.6;
                 text-align: left;
-                padding: 10px 10px 5px 5px;
+                padding: 10px 10px 10px 5px;
             }
             .departures {
-                padding-bottom: 20px;
+                padding-bottom: 10px;
             }
             .departure {
-                padding-top: 10px;
+                padding-top: 2px;
+                padding-bottom: 10px;
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
