@@ -75,10 +75,15 @@ class BerlinTransportCard extends HTMLElement {
         const style = document.createElement('style');
 
         style.textContent = `
-            .container {
+            ha-card {
+                height: 100%;
                 padding: 10px;
                 font-size: 130%;
                 line-height: 1.5em;
+            }
+            .container {
+                height: 100%;
+                overflow: hidden hidden;
             }
             .stop {
                 opacity: 0.6;
@@ -154,6 +159,13 @@ class BerlinTransportCard extends HTMLElement {
     // The height of the card.
     getCardSize() {
         return 5;
+    }
+
+    // The rules for sizing your card in the grid in sections view
+    getGridOptions() {
+        return {
+            rows: 5,
+        };
     }
 }
   
