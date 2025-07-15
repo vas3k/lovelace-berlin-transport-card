@@ -168,6 +168,94 @@ class BerlinTransportCard extends HTMLElement {
             rows: 5,
         };
     }
+
+    static getConfigElement() {
+        return document.createElement("berlin-transport-card-editor");
+    }
+
+    static getStubConfig() {
+        return {
+            show_stop_name: true,
+            max_entries: 10,
+            entities: [],
+            show_cancelled: true,
+            show_delay: true,
+            show_absolute_time: true,
+            show_relative_time: true,
+            include_walking_time: false,
+        }
+    }
 }
-  
+
+class BerlinTransportCardEditor extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({
+            mode: 'open'
+        });
+    }
+
+    _computeLabel(field) {
+        const labels = {
+            entities: "Stops",
+            show_stop_name: "Show stop name",
+            max_entries: "Maximum departures",
+            show_cancelled: "Show cancelled departures",
+            show_delay: "Show delay",
+            show_absolute_time: "Show absolute time of departures",
+            show_relative_time: "Show relative time of departures",
+            include_walking_time: "Subtract walking time from relative time of departures"
+        };
+
+        return labels[field.name] ? labels[field.name] : field.name;
+    }
+
+    setConfig(config) {
+        this.config = config;
+
+        if (this.shadowRoot.lastChild) {
+            this.shadowRoot.removeChild(this.shadowRoot.lastChild);
+        }
+
+        const form = document.createElement('ha-form');
+        form.data = this.config;
+        form.hass = this.hass;
+        form.schema = [
+            { name: "entities", label: "Haltestelle", selector: { entity: { filter: { integration: "berlin_transport" }, multiple: true } }},
+            { name: "show_stop_name", selector: { boolean: {} }},
+            { name: "max_entries", selector: { number: { min: 1, max: 100, mode: "box" } }},
+            { name: "show_cancelled", selector: { boolean: {} }},
+            { name: "show_delay", selector: { boolean: {} }},
+            { name: "show_absolute_time", selector: { boolean: {} }},
+            { name: "show_relative_time", selector: { boolean: {} }},
+            { name: "include_walking_time", selector: { boolean: {} }},
+        ];
+        form.computeLabel = this._computeLabel;
+        form.addEventListener("value-changed", this._valueChanged);
+        this.shadowRoot.appendChild(form);
+    }
+
+    _valueChanged(evt) {
+        this.config = evt.detail.value;
+
+        const event = new Event("config-changed", {
+            bubbles: true,
+            composed: true,
+        });
+        event.detail = { config: this.config };
+        this.dispatchEvent(event);
+    }
+}
+
 customElements.define('berlin-transport-card', BerlinTransportCard);
+customElements.define('berlin-transport-card-editor', BerlinTransportCardEditor);
+
+window.customCards = window.customCards || [];
+window.customCards.push({
+  type: "berlin-transport-card",
+  name: "Berlin Transport Card",
+  preview: false,
+  description: "Card for Berlin (BVG) and Brandenburg (VBB) transport integration",
+  documentationURL:
+    "https://github.com/vas3k/lovelace-berlin-transport-card",
+});
