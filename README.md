@@ -51,6 +51,7 @@ This Lovelace card can be installed via [HACS](https://hacs.xyz/) or manually.
   show_absolute_time: true # show the absolute time till departure.
   show_relative_time: true # show the relative time till departure.
   include_walking_time: true # subtract walking time to the stop from the relative time to the departure.
+  show_warnings: true # show or hide the service warnings if reported. When not defined or true, the warnings will be shown under the direction.
 ```
 
 
