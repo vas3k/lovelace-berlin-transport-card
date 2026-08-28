@@ -22,7 +22,7 @@ This Lovelace card can be installed via [HACS](https://hacs.xyz/) or manually.
 
 **2.** Add [this repository](https://github.com/vas3k/lovelace-berlin-transport-card) as a custom repository (Three dots in top right corner -> Custom repositories)
 
-**3.** Select "Lovelace" as a category
+**3.** Select "Dashboard" as a category
 
 **4.** Go to `Settings -> Devices & Services -> Add integration` and search for this card name (just type `Berlin`)
 
