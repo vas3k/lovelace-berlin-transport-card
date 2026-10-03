@@ -1,5 +1,18 @@
 // Berlin Transport Card
 
+const escapeHtml = (value) =>
+  String(value ?? "").replace(
+    /[&<>"']/g,
+    (c) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[c],
+  );
+
 class BerlinTransportCard extends HTMLElement {
   constructor() {
     super();
@@ -34,10 +47,10 @@ class BerlinTransportCard extends HTMLElement {
     for (const entityId of entityIds) {
       const entity = hass.states[entityId];
       if (!entity) {
-        content += `<div class="not-found">Entity ${entityId} not found.</div>`;
+        content += `<div class="not-found">Entity ${escapeHtml(entityId)} not found.</div>`;
       } else {
         if (showStopName) {
-          content += `<div class="stop">${entity.attributes.friendly_name}</div>`;
+          content += `<div class="stop">${escapeHtml(entity.attributes.friendly_name)}</div>`;
         }
 
         if (entity.state === "unavailable") {
@@ -93,7 +106,7 @@ class BerlinTransportCard extends HTMLElement {
                 .map((id) => {
                   const w = warningObjects[id];
                   const summary = typeof w === "object" ? w.summary : w;
-                  return `<div class="warning-item"><ha-icon icon="mdi:alert-circle" class="warning-icon"></ha-icon>${summary}</div>`;
+                  return `<div class="warning-item"><ha-icon icon="mdi:alert-circle" class="warning-icon"></ha-icon>${escapeHtml(summary)}</div>`;
                 })
                 .join("") +
               `</div>`;
@@ -138,7 +151,7 @@ class BerlinTransportCard extends HTMLElement {
                 ? `<div class="warnings">${localWarnings
                     .map((w) => {
                       const summary = typeof w === "object" ? w.summary : w;
-                      return `<div class="warning-item"><ha-icon icon="mdi:alert-circle" class="warning-icon"></ha-icon>${summary}</div>`;
+                      return `<div class="warning-item"><ha-icon icon="mdi:alert-circle" class="warning-icon"></ha-icon>${escapeHtml(summary)}</div>`;
                     })
                     .join("")}</div>`
                 : "";
@@ -149,13 +162,13 @@ class BerlinTransportCard extends HTMLElement {
 
             return `<div class="departure">
                                 <div class="line ${cancelledClass}">
-                                    <div class="line-icon" style="background-color: ${departure.color}">${departure.line_name}</div>
+                                    <div class="line-icon" style="background-color: ${escapeHtml(departure.color)}">${escapeHtml(departure.line_name)}</div>
                                 </div>
                                 <div class="direction">
-                                    <div class="${cancelledClass}">${departure.direction}</div>
+                                    <div class="${cancelledClass}">${escapeHtml(departure.direction)}</div>
                                     ${warningsDiv}
                                 </div>
-                                <div class="time ${cancelledClass}">${showRelativeTime ? relativeTimeDiv : ""}${showAbsoluteTime ? departure.time : ""}${showDelay ? delayDiv : ""}</div>
+                                <div class="time ${cancelledClass}">${showRelativeTime ? relativeTimeDiv : ""}${showAbsoluteTime ? escapeHtml(departure.time) : ""}${showDelay ? delayDiv : ""}</div>
                             </div>`;
           });
 
