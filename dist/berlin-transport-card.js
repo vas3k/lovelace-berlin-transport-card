@@ -331,6 +331,16 @@ class BerlinTransportCardEditor extends HTMLElement {
     this.attachShadow({
       mode: "open",
     });
+    this._valueChanged = this._valueChanged.bind(this);
+  }
+
+  set hass(hass) {
+    this._hass = hass;
+    if (this._form) this._form.hass = hass;
+  }
+
+  get hass() {
+    return this._hass;
   }
 
   _computeLabel(field) {
@@ -353,8 +363,10 @@ class BerlinTransportCardEditor extends HTMLElement {
   setConfig(config) {
     this.config = config;
 
-    if (this.shadowRoot.lastChild) {
-      this.shadowRoot.removeChild(this.shadowRoot.lastChild);
+    // Reuse the form so inputs keep focus while the user is typing
+    if (this._form) {
+      this._form.data = this.config;
+      return;
     }
 
     const form = document.createElement("ha-form");
@@ -385,6 +397,7 @@ class BerlinTransportCardEditor extends HTMLElement {
     ];
     form.computeLabel = this._computeLabel;
     form.addEventListener("value-changed", this._valueChanged);
+    this._form = form;
     this.shadowRoot.appendChild(form);
   }
 
