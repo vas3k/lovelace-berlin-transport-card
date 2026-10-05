@@ -43,7 +43,10 @@ class BerlinTransportCard extends HTMLElement {
         if (entity.state === "unavailable") {
           content += `<div class="not-found">No results due to API error.</div>`;
         } else {
-          const departures = entity.attributes.departures.slice(0, maxEntries);
+          const departures = (entity.attributes.departures || []).slice(
+            0,
+            maxEntries,
+          );
           const warningCounts = {};
           const warningObjects = {};
 
