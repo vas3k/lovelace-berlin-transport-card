@@ -1,5 +1,28 @@
 // Berlin Transport Card
 
+/*
+ * Format the departure time as HH:MM from its timezone-aware timestamp.
+ * Like the rest of the Home Assistant frontend, show the time in the browser's
+ * time zone unless the user's profile is set to use the server's time zone.
+ */
+function formatDepartureTime(departure, hass) {
+  const date = new Date(departure.timestamp);
+
+  const options = {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+    numberingSystem: "latn",
+  };
+  if (hass.locale?.time_zone === "server" && hass.config?.time_zone) {
+    options.timeZone = hass.config.time_zone;
+  }
+
+  const parts = new Intl.DateTimeFormat("en-US", options).formatToParts(date);
+  const part = (type) => parts.find((p) => p.type === type)?.value;
+  return `${part("hour")}:${part("minute")}`;
+}
+
 class BerlinTransportCard extends HTMLElement {
   constructor() {
     super();
@@ -158,7 +181,7 @@ class BerlinTransportCard extends HTMLElement {
                                     <div class="${cancelledClass}">${departure.direction}</div>
                                     ${warningsDiv}
                                 </div>
-                                <div class="time ${cancelledClass}">${showRelativeTime ? relativeTimeDiv : ""}${showAbsoluteTime ? departure.time : ""}${showDelay ? delayDiv : ""}</div>
+                                <div class="time ${cancelledClass}">${showRelativeTime ? relativeTimeDiv : ""}${showAbsoluteTime ? formatDepartureTime(departure, hass) : ""}${showDelay ? delayDiv : ""}</div>
                             </div>`;
           });
 
